@@ -57,8 +57,11 @@ public class HolaMundo {
 		al.setDni("23456789x");
 		al.setEdad(25);
 		al.setPoblacion("Bilbao");
-		//al.setSexo("Varon");
-		//al.setTelefono(94123456);
+		
+		// Correguido problemas con los datos de sexo y telefono
+		al.setSexo(Alumno.SEXO_VARON);
+		al.setTelefono("94123456");
+		
 		System.out.println(al);
 	
 		
