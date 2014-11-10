@@ -20,16 +20,16 @@ import java.util.ArrayList;
  *
  */
 public class Alumno {
-	static final char SEXO_VARON = 'v';
-	static final char SEXO_MUJER = 'm';
-	static final char SEXO_OTROS = 'o';
+	public static final char SEXO_VARON = 'v';
+	public static final char SEXO_MUJER = 'm';
+	public static final char SEXO_OTROS = 'o';
 	
-	static final int MAYOR_EDAD = 18;
+	public static final int MAYOR_EDAD = 18;
 	
-	static final String NOMBRE_POR_DEFECTO ="Jhon";
-	static final String APELLIDO_POR_DEFECTO = "Doe";
-	static final int EDAD_POR_DEFECTO = 0;
-	static final String DNI_POR_DEFECTO = "xxxxxxxxx";
+	public static final String NOMBRE_POR_DEFECTO ="Jhon";
+	public static final String APELLIDO_POR_DEFECTO = "Doe";
+	public static final int EDAD_POR_DEFECTO = 0;
+	public static final String DNI_POR_DEFECTO = "xxxxxxxxx";
 	
 			
 	// Atributos
