@@ -1,7 +1,9 @@
 package ipartek.formacion.ejemplos.hibernate;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Basic;
@@ -11,6 +13,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrePersist;
@@ -69,12 +72,19 @@ public class Persona {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.persona", cascade = CascadeType.ALL)
     private Set<PersonaCurso> personaCurso = new HashSet<PersonaCurso>(0);
     
+	@ManyToOne
     
-    
+	// realiza en cascada las operaciones de guardar y eliminar
+	// cuando se guarde o se elimine una persona se guardara o eliminara la
+	// direccion
     @OneToOne(cascade={CascadeType.PERSIST, CascadeType.REMOVE}) 
     private Direccion direccion;  
+
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<Libro> libros = new ArrayList<Libro>();
      
-   
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	private List<Material> materiales = new ArrayList<Material>();
 
 
 	public Long getId() {
@@ -162,6 +172,22 @@ public class Persona {
 
 	public void setPersonaCurso(Set<PersonaCurso> personaCurso) {
 		this.personaCurso = personaCurso;
+	}
+
+	public List<Libro> getLibros() {
+		return libros;
+	}
+
+	public void setLibros(List<Libro> libros) {
+		this.libros = libros;
+	}
+
+	public List<Material> getMateriales() {
+		return materiales;
+	}
+
+	public void setMateriales(List<Material> materiales) {
+		this.materiales = materiales;
 	}
 
 	@PrePersist

@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.AssociationOverride;
 import javax.persistence.AssociationOverrides;
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -34,6 +35,11 @@ public class PersonaCurso {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "f_matricula", nullable = false, length = 10)
 	private Date fechaMatriculacion;
+
+	// usuario que realiza la matriculacion
+	@Basic
+	@Column(name = "usuario", nullable = false, length = 100)
+	private String usuario;
 	
 	
 
@@ -82,8 +88,12 @@ public class PersonaCurso {
 	public void setFechaMatriculacion(Date fechaMatriculacion) {
 		this.fechaMatriculacion = fechaMatriculacion;
 	}
-	
-	
-	
-	
+
+	public String getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
+	}
 }

@@ -1,11 +1,12 @@
 package ipartek.formacion.ejemplos.hibernate;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.hibernate.Session;
 import org.junit.After;
@@ -145,7 +146,7 @@ public class PersonaTest {
 	public void testPersonaCurso() {
 		
 		
-		Persona p = (Persona)s.get( Persona.class, (long) 1 );	
+		Persona p = (Persona) s.get(Persona.class, (long) 2);
 		
 		//crear curso
 		Curso c = new Curso();
@@ -155,22 +156,61 @@ public class PersonaTest {
 		//salvar curso primero si no existe o se crea al vuelo
 		s.save(c);
 		
+		asociarPersonaCurso(p, c);
 		
-		//crear objeto tabla intermedia
+		/*
+		 * //crear objeto tabla intermedia PersonaCurso pc = new PersonaCurso();
+		 * pc.setPersona(p); pc.setCurso(c); pc.setFechaMatriculacion(new
+		 * Date()); pc.setUsuario("admin");
+		 * 
+		 * //asociar tabla intermedia a la persona p.getPersonaCurso().add(pc);
+		 * 
+		 * //modificar persona s.update(p);
+		 */
+		
+		// crear curso
+		c = new Curso();
+		c.setCodigo("IFCDXXXX");
+		c.setNombre("PHP");
+		
+		// salvar curso primero si no existe o se crea al vuelo
+		s.save(c);
+
+		asociarPersonaCurso(p, c);
+
+		/*
+		 * // crear objeto tabla intermedia pc = new PersonaCurso();
+		 * pc.setPersona(p); pc.setCurso(c); pc.setFechaMatriculacion(new
+		 * Date()); pc.setUsuario("admin");
+		 * 
+		 * // asociar tabla intermedia a la persona p.getPersonaCurso().add(pc);
+		 * 
+		 * // modificar persona s.update(p);
+		 */
+	}
+	
+	/**
+	 * Asocia una Persona a un Curso
+	 * 
+	 * @param p
+	 *            Persona
+	 * @param c
+	 *            Curso
+	 */
+	private void asociarPersonaCurso(Persona p, Curso c) {
+		// crear objeto tabla intermedia
 		PersonaCurso pc = new PersonaCurso();
 		pc.setPersona(p);
 		pc.setCurso(c);
 		pc.setFechaMatriculacion(new Date());
-		
-		//asociar tabla intermedia a  la persona
+		pc.setUsuario("admin");
+
+		// asociar tabla intermedia a la persona
 		p.getPersonaCurso().add(pc);
-		
-		//modificar persona
+
+		// modificar persona
 		s.update(p);
-		
-		
 	}
-	
 	
 	@Test
 	public void testPersonaDireccion() {
@@ -185,7 +225,38 @@ public class PersonaTest {
 		//obtener persona y asociarle direccion
 		Persona p = (Persona)s.get( Persona.class, (long) 1 );
 		p.setDireccion(dir);
-		s.update(p);		
+		s.update(p);
+	}
+
+	/**
+	 * Comprobar que se añade la direccion en cascada al insertar
+	 */
+	@Test
+	public void testPersonaDireccionCascada() {
+		String nombreCalle = "calle insercion cascade";
+		// crear personas de prueba
+		Persona p = new Persona();
+		p.setNombre("persona direccion insert");
+
+		Direccion d = new Direccion();
+		d.setCalle(nombreCalle);
+
+		p.setDireccion(d);
+		s.persist(p);
+
+		// terminar la transaccion comitando
+		s.getTransaction().commit();
+		s.close();
+
+		long idPersona = p.getId();
+
+		// comenzamos nueva transaccion
+		s = HibernateUtil.getSession();
+		s.beginTransaction();
+
+		Persona pCheck = (Persona) s.get(Persona.class, idPersona);
+		assertNotNull(pCheck.getDireccion());
+		assertSame(nombreCalle, pCheck.getDireccion().getCalle());
 	}
 	
 	

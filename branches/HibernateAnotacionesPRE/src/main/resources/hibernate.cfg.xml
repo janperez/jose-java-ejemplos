@@ -27,6 +27,7 @@
 		<mapping class="ipartek.formacion.ejemplos.hibernate.PersonaCursoId"/>
 		
 		<mapping class="ipartek.formacion.ejemplos.hibernate.Direccion"/>
+		<mapping class="ipartek.formacion.ejemplos.hibernate.Libro"/>
 		
 		
 	</session-factory>
