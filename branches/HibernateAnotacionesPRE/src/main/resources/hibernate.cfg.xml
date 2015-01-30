@@ -28,6 +28,7 @@
 		
 		<mapping class="ipartek.formacion.ejemplos.hibernate.Direccion"/>
 		<mapping class="ipartek.formacion.ejemplos.hibernate.Libro"/>
+		<mapping class="ipartek.formacion.ejemplos.hibernate.Material"/>
 		
 		
 	</session-factory>

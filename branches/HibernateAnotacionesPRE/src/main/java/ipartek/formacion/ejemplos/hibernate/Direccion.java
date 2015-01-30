@@ -10,15 +10,15 @@ import javax.persistence.Table;
 
 @Entity 
 @Table(name = "Direccion")
-public class Direccion implements Serializable {
+public class Direccion implements Serializable{
 	
 	 @Id 
 	 @GeneratedValue(strategy=GenerationType.IDENTITY) 
 	 private long id;
-	 
+	 	 
 	 private String calle;
 	 private String codigoPostal;
-
+	 
 	public long getId() {
 		return id;
 	}

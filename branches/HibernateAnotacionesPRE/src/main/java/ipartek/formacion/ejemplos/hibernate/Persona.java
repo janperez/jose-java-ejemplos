@@ -13,6 +13,9 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -69,23 +72,21 @@ public class Persona {
     */
     
     //private Set<Curso> cursos = new HashSet<Curso>(0);
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.persona", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.persona", cascade=CascadeType.ALL )    
     private Set<PersonaCurso> personaCurso = new HashSet<PersonaCurso>(0);
     
-	@ManyToOne
     
-	// realiza en cascada las operaciones de guardar y eliminar
-	// cuando se guarde o se elimine una persona se guardara o eliminara la
-	// direccion
+    
     @OneToOne(cascade={CascadeType.PERSIST, CascadeType.REMOVE}) 
     private Direccion direccion;  
-
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<Libro> libros = new ArrayList<Libro>();
      
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<Material> materiales = new ArrayList<Material>();
-
+    @OneToMany(cascade=CascadeType.ALL, fetch=FetchType.EAGER)
+    private List<Libro> libros = new ArrayList<Libro>();  
+    
+    @OneToMany(mappedBy="persona", cascade=CascadeType.ALL)
+    private List<Material> materiales = new ArrayList<Material>();
+    
+    
 
 	public Long getId() {
 		return id;
@@ -120,7 +121,15 @@ public class Persona {
 		this.edad = edad;
 	}
 	
-	 public Direccion getDireccion() {
+	 public List<Libro> getLibros() {
+		return libros;
+	}
+
+	public void setLibros(List<Libro> libros) {
+		this.libros = libros;
+	}
+
+	public Direccion getDireccion() {
 			return direccion;
 		}
 
@@ -174,22 +183,6 @@ public class Persona {
 		this.personaCurso = personaCurso;
 	}
 
-	public List<Libro> getLibros() {
-		return libros;
-	}
-
-	public void setLibros(List<Libro> libros) {
-		this.libros = libros;
-	}
-
-	public List<Material> getMateriales() {
-		return materiales;
-	}
-
-	public void setMateriales(List<Material> materiales) {
-		this.materiales = materiales;
-	}
-
 	@PrePersist
     protected void onCreate() {
     	setFechaCreacion( new Date() );
@@ -200,6 +193,14 @@ public class Persona {
     protected void onUpdate() {
     	setFechaModificacion(new Date());
     }
+
+	public List<Material> getMateriales() {
+		return materiales;
+	}
+
+	public void setMateriales(List<Material> materiales) {
+		this.materiales = materiales;
+	}
   
     
     
