@@ -35,12 +35,11 @@ public class PersonaCurso {
 	@Temporal(TemporalType.DATE)
 	@Column(name = "f_matricula", nullable = false, length = 10)
 	private Date fechaMatriculacion;
-
-	// usuario que realiza la matriculacion
+	
+	//usuario que registra a la Persona en el Curso
 	@Basic
 	@Column(name = "usuario", nullable = false, length = 100)
 	private String usuario;
-	
 	
 
 	public PersonaCursoId getPk() {
@@ -96,4 +95,8 @@ public class PersonaCurso {
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
 	}
+	
+	
+	
+	
 }

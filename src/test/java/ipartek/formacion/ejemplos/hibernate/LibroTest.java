@@ -1,44 +1,65 @@
 package ipartek.formacion.ejemplos.hibernate;
 
+import static org.junit.Assert.*;
+
 import org.hibernate.Session;
-import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class LibroTest {
-
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
 
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 	}
 
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
-
 	@Test
 	public void test() {
-		Persona persona1 = new Persona();
-		persona1.setNombre("Alex");
+		/*Primero creamos una persona y la asociamos con dos libros*/ 
+	    Libro libro1 = new Libro(); 
+	    libro1.setTitulo("20000 leguas de viaje submarino");  
 
-		Persona persona2 = new Persona();
-		persona2.setNombre("Juan");
+	    Libro libro2 = new Libro(); 
+	    libro2.setTitulo("La maquina del tiempo");  
 
-		Session sesion = HibernateUtil.getSession();
-		sesion.beginTransaction();
+	    Persona persona1 = new Persona(); 
+	    persona1.setNombre("Persona que se eliminara");  
+	    persona1.getLibros().add(libro1); 
+	    persona1.getLibros().add(libro2);   
 
-		sesion.persist(persona1);
-		sesion.persist(persona2);
+	    /*Creamos una segunda persona, que sera eliminada, y la asociamos
+	    con otros dos libros*/ 
+	    Libro libro3 = new Libro(); 
+	    libro3.setTitulo("El ingenioso hidalgo don Quijote de la Mancha");  
 
+	    Libro libro4 = new Libro(); 
+	    libro4.setTitulo("La Galatea");  
+
+	    Persona persona2 = new Persona(); 
+	    persona2.setNombre("Alex");  
+	    persona2.getLibros().add(libro3); 
+	    persona2.getLibros().add(libro4);   
+
+	    /*En la primer sesion guardamos las dos personas (los libros
+	    correspondientes seran guardados en cascada*/ 
+	    
+	    Session sesion = HibernateUtil.getSession();
+	    sesion.beginTransaction();  
+
+	    sesion.persist(persona1); 
+	    sesion.persist(persona2);  
+
+	    sesion.getTransaction().commit(); 
+	    sesion.close();   
+
+	    /*En la segunda sesion eliminamos la persona1 (los dos primeros
+	    libros seran borrados en cascada)*/ 
+	    sesion = HibernateUtil.getSession();
+	    sesion.beginTransaction();  
+
+	    sesion.delete(persona1);  
+
+	    sesion.getTransaction().commit(); 
+	    sesion.close();   
 	}
 
 }

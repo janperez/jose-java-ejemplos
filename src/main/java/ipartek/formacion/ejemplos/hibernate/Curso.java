@@ -58,8 +58,7 @@ public class Curso {
     */		
     
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.curso" )
-    //private Set <Persona> personas = new HashSet<Persona>(0);
-   // private Set<PersonaCurso> personaCurso = new HashSet<PersonaCurso>(0);
+    //private Set <Persona> personas = new HashSet<Persona>(0);   
     private Set<PersonaCurso> personaCurso = new HashSet<PersonaCurso>(0);
     
 	

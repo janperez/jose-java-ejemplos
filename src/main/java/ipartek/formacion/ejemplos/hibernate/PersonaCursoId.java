@@ -7,7 +7,7 @@ import javax.persistence.ManyToOne;
  * Clase que sirve para definir el ID de la tabla intermendia PersonaCurso
  * 
  * */
-// Recomendable que los datos sean serializables para que sea mas rapido
+
 @Embeddable
 public class PersonaCursoId implements java.io.Serializable{
 
